@@ -12,7 +12,7 @@ const Login = () => {
     const [alerta, setAlerta] = useState({})
     
     //Extrae funcion desde provider
-    const { auth, setAuth, cargando } = useAuth();
+    const { setAuth } = useAuth();
 
     const navigate = useNavigate();
 
@@ -29,13 +29,14 @@ const Login = () => {
 
         //Autentificar el usuario
         try {
-            const { data } = await clienteAxios.post(`/usuarios/login`, {email, password})
+            const { data } = await axios.post('https://up-project-task.onrender.com/api/usuarios/login', {email, password})
             /** Almacenamiento en LOCALSTORAGE */
             setAlerta({})
             localStorage.setItem('token', data.token)
 
             setAuth(data)
             navigate('/proyectos')
+
         } catch (error) {
             setAlerta({
                 msg: error.response.data.msg,
